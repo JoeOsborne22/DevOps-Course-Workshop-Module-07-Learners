@@ -19,7 +19,7 @@ pipeline {
                 docker {image 'node:17-alpine' }
 	    }
 	    environment {
-	        DOTNET_CLI_HOME = "/tmp/dotnet_cli_home"
+	        DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
 	   }
             steps {
 	        dir ('DotnetTemplate.Web'){
