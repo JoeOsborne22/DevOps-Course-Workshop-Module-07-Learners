@@ -14,8 +14,23 @@ jobs:
     - name: Run c# Tests
       run: dotnet test
 
+    - name: NPM install/CI
+      run: npm ci # Like npm install but uses existing version in lockfile
+      working-directory: ./DotnetTemplate.Web
 
+    - name: NPM Build TypeScript
+      run: npm run build
+      working-directory: ./DotnetTemplate.Web
 
+    - name: Run linter on TypeScript code
+      run: npm run lint
+      working-directory: ./DotnetTemplate.Web
+
+    - name: Run typeScript Tests
+      run: npm t
+      working-directory: ./DotnetTemplate.Web
+
+    #Test
     - name: Hello world       # Name of step
       run: echo 'Hello world' # Command to run
  
