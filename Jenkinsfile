@@ -2,21 +2,6 @@ pipeline {
     agent none
 
     stages {
-	stage('C# Build + Test') {
-            agent { 
-	        docker {image 'mcr.microsoft.com/dotnet/sdk:5.0' }
-	    }
-	    environment {
-	        DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
-	    }
-	    steps {
-                echo 'Building dotnet'
-		sh 'dotnet build'
-		echo 'Testing dotnet'
-		sh 'dotnet test'
-
-            }
-        }
         stage('TypeScript Build + Test') {
 	    agent {
                 docker {image 'node:17-bullseye' }
@@ -32,6 +17,21 @@ pipeline {
 		    echo 'Run TypeScript Tests'
 		    sh 'npm t'
 		}
+            }
+        }
+	stage('C# Build + Test') {
+            agent { 
+	        docker {image 'mcr.microsoft.com/dotnet/sdk:5.0' }
+	    }
+	    environment {
+	        DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
+	    }
+	    steps {
+                echo 'Building dotnet'
+		sh 'dotnet build'
+		echo 'Testing dotnet'
+		sh 'dotnet test'
+
             }
         }
         stage('Deploy') {
