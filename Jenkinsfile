@@ -6,6 +6,9 @@ pipeline {
             agent { 
 	        docker {image 'mcr.microsoft.com/dotnet/sdk:5.0' }
 	    }
+	    environment {
+	        DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
+	    }
 	    steps {
                 echo 'Building dotnet'
 		sh 'dotnet build'
@@ -16,11 +19,8 @@ pipeline {
         }
         stage('TypeScript Build + Test') {
 	    agent {
-                docker {image 'node:17-alpine' }
+                docker {image 'node:17-bullseye' }
 	    }
-	    environment {
-	        DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
-	   }
             steps {
 	        dir ('DotnetTemplate.Web'){
                     echo 'Install NPM'
