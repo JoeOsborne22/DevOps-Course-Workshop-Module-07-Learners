@@ -1,12 +1,22 @@
-FROM jenkins/jenkins:2.303.3-jdk11
-USER root
-RUN apt-get update && apt-get install -y lsb-release
-RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
-  https://download.docker.com/linux/debian/gpg
-RUN echo "deb [arch=$(dpkg --print-architecture) \
-  signed-by=/usr/share/keyrings/docker-archive-keyring.asc] \
-  https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
-RUN apt-get update && apt-get install -y docker-ce-cli
-USER jenkins
-RUN jenkins-plugin-cli --plugins "blueocean:1.25.1 docker-workflow:1.26"
+FROM mcr.microsoft.com/dotnet/sdk:5.0 as base 
+
+WORKDIR /app
+
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+
+COPY . /app
+
+RUN dotnet build
+
+WORKDIR /app/DotnetTemplate.Web
+
+#RUN npm install
+RUN npm ci
+RUN npm run build
+RUN npm run lint
+RUN npm t 
+
+EXPOSE 5000
+
+ENTRYPOINT [ "dotnet", "run" ]
