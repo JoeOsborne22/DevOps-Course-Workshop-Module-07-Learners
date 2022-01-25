@@ -36,19 +36,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2 # Adds a step to checkout the repository code
     - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "joe-devops-workshop8" #Must be unique in Heroku
-          heroku_email: "josephbwo@hotmail.com"
-          usedocker: true
-      
-      
-
-
-    #Test
-    - name: Hello world       # Name of step
-      run: echo 'Hello world' # Command to run
- 
-    - uses: actions/hello-world-javascript-action@v1.1 # Name of the action. This uses https://github.com/actions/hello-world-javascript-action
-      with:                                            # This section is needed if you need to pass arguments to the action
-        who-to-greet: 'Mona the Octocat'
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "joe-devops-workshop8" #Must be unique in Heroku
+        heroku_email: "josephbwo@hotmail.com"
+        usedocker: true
